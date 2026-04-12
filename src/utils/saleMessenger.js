@@ -1,0 +1,32 @@
+/**
+ * @param {object} d
+ * @param {string} d.mspn
+ * @param {number} d.quantity
+ * @param {number} d.pricePerTire
+ * @param {number} d.totalPrice
+ * @param {string} d.customerName
+ * @param {string} d.customerContact
+ * @param {'Pickup'|'Delivery'} d.fulfillment
+ * @param {string} d.fulfillmentNotes
+ * @param {string} [d.additionalNotes]
+ */
+export function formatSaleMessage(d) {
+  const notes = [d.fulfillmentNotes, d.additionalNotes]
+    .filter(Boolean)
+    .join(' | ')
+
+  return [
+    '🛞 TIRE SALE - Action Required',
+    '',
+    `SKU: ${d.mspn}`,
+    `Qty: ${d.quantity}`,
+    `Price: $${Number(d.pricePerTire).toFixed(2)} each / $${Number(d.totalPrice).toFixed(2)} total`,
+    '',
+    `Customer: ${d.customerName}`,
+    `Contact: ${d.customerContact}`,
+    `Fulfillment: ${d.fulfillment}`,
+    `Notes: ${notes || '—'}`,
+    '',
+    '— Skedaddle Portal',
+  ].join('\n')
+}

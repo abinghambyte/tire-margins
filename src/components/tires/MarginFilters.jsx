@@ -1,0 +1,94 @@
+export function MarginFilters({
+  brands,
+  categories,
+  useTags,
+  lrs,
+  brand,
+  category,
+  useTag,
+  lr,
+  onBrand,
+  onCategory,
+  onUseTag,
+  onLr,
+  minMargin,
+  onMinMargin,
+  hasActiveFilters,
+  onClearAll,
+}) {
+  return (
+    <div className="flex flex-col gap-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 sm:p-6">
+      {hasActiveFilters && onClearAll ? (
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-800/80 pb-4">
+          <p className="text-xs text-zinc-500">Filters are narrowing the table.</p>
+          <button
+            type="button"
+            onClick={onClearAll}
+            className="rounded-lg border border-zinc-600 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-zinc-500 hover:text-white"
+          >
+            Clear all filters
+          </button>
+        </div>
+      ) : null}
+      <div>
+        <label
+          htmlFor="min-margin"
+          className="mb-2 block text-xs font-medium uppercase tracking-wide text-zinc-500"
+        >
+          Minimum margin ({minMargin}%)
+        </label>
+        <input
+          id="min-margin"
+          type="range"
+          min={0}
+          max={100}
+          step={1}
+          value={minMargin}
+          onChange={(e) => onMinMargin(Number(e.target.value))}
+          className="w-full accent-zinc-200"
+        />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <FilterSelect
+          label="Brand"
+          value={brand}
+          onChange={onBrand}
+          options={brands}
+        />
+        <FilterSelect
+          label="Category"
+          value={category}
+          onChange={onCategory}
+          options={categories}
+        />
+        <FilterSelect
+          label="Use tag"
+          value={useTag}
+          onChange={onUseTag}
+          options={useTags}
+        />
+        <FilterSelect label="LR" value={lr} onChange={onLr} options={lrs} />
+      </div>
+    </div>
+  )
+}
+
+function FilterSelect({ label, value, onChange, options }) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-xs font-medium text-zinc-500">{label}</label>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+      >
+        <option value="">All</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
